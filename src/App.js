@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+
+const roomiesData = [
+  { name: "Josue", debt: 0, image: "https://i.pravatar.cc/48?u=933372" },
+  { name: "Daniela", debt: 0, image: "https://i.pravatar.cc/48?u=118836" },
+];
 
 function App() {
+  const [roomies, setRoomies] = useState(roomiesData);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ul>
+        {roomies.map((roomie, i) => {
+          return <Roomie name={roomie.name} debt={roomie.debt} key={i} />;
+        })}
+      </ul>
+    </>
+  );
+}
+
+function Roomie({ name, debt }) {
+  return (
+    <>
+      <li>
+        {name}
+        {debt}
+      </li>
+    </>
   );
 }
 
