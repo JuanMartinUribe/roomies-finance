@@ -35,9 +35,9 @@ function App() {
       let roomieDebt = 0;
       let roomieOwed = 0;
       debts.forEach((debt) => {
-        if (debt.debtor === roomie.name) {
+        if (debt.debtor === roomie.name && !debt.paid) {
           roomieDebt += debt.amount;
-        } else if (debt.creditor === roomie.name) {
+        } else if (debt.creditor === roomie.name && !debt.paid) {
           roomieOwed += debt.amount;
         }
       });
@@ -82,11 +82,18 @@ function App() {
       });
     });
   }
+  function handlePayAllDebts() {
+    setDebts((debts) => {
+      return debts.map((curDebt) => {
+        return { ...curDebt, paid: true };
+      });
+    });
+  }
   return (
     <Router>
       <Switch>
         <Route path="/roomies">
-          <Roomies roomies={roomies} />
+          <Roomies roomies={roomies} onPayAllDebts={handlePayAllDebts} />
         </Route>
         <Route path="/debts">
           <DebtsList

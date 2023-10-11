@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-function Roomies({ roomies }) {
+function Roomies({ roomies,onPayAllDebts }) {
   return (
     <>
       <ul>
@@ -15,6 +13,7 @@ function Roomies({ roomies }) {
           );
         })}
       </ul>
+      <button onClick={onPayAllDebts}>PAY ALL DEBTS</button>
     </>
   );
 }
