@@ -1,33 +1,29 @@
 import { useState } from "react";
+import Debt from "./Debt";
 
-function DebtsList({ roomies, debts }) {
+function DebtsList({ debts, onUpdateDebt, onDeleteDebt }) {
+  const [selectedId, setSelectedId] = useState("");
+  function handleSelect(id) {
+    setSelectedId((curId) => {
+      return id === curId ? "" : id;
+    });
+  }
   return (
     <>
       <ul>
         {debts.map((debt, i) => {
-          return <Debt debt={debt} key={i} />;
-        })}
-      </ul>
-    </>
-  );
-}
-
-function Debt({ debt }) {
-  const { creditor, debtor, amount, description, status } = debt;
-  return (
-    <>
-      <li>
-        {Object.keys(debt).map((key) => {
           return (
-            <>
-              <strong key={key}>
-                {key} : {debt[key]}
-              </strong>
-              <br />
-            </>
+            <Debt
+              debt={debt}
+              key={debt.id}
+              onSelect={handleSelect}
+              selectedId={selectedId}
+              onUpdateDebt={onUpdateDebt}
+              onDeleteDebt={onDeleteDebt}
+            />
           );
         })}
-      </li>
+      </ul>
     </>
   );
 }

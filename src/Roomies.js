@@ -1,29 +1,36 @@
 import { useState } from "react";
 
-const roomiesData = [
-  { name: "Josue", debt: 0, image: "https://i.pravatar.cc/48?u=933372" },
-  { name: "Daniela", debt: 0, image: "https://i.pravatar.cc/48?u=118836" },
-];
-
-function Roomies({roomies}) {
-
+function Roomies({ roomies }) {
   return (
     <>
       <ul>
         {roomies.map((roomie, i) => {
-          return <Roomie name={roomie.name} debt={roomie.debt} key={i} />;
+          return (
+            <Roomie
+              name={roomie.name}
+              debt={roomie.debt}
+              owed={roomie.owed}
+              key={i}
+            />
+          );
         })}
       </ul>
     </>
   );
 }
 
-function Roomie({ name, debt }) {
+function Roomie({ name, debt, owed }) {
+  console.log(debt, owed);
   return (
     <>
       <li>
-        {name}<br/>
-        {debt}
+        name: {name}
+        <br />
+        debt : {debt}
+        <br />
+        owed: {owed}
+        <br />
+        total balance: {owed - debt}
       </li>
     </>
   );
