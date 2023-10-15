@@ -56,13 +56,14 @@ function App() {
   }, [debts, roomies]);
 
   function handleAddDebt(formData) {
-    setDebts((debts) => {
+    setDebts((curDebts) => {
+      const { showForm, ...filteredForm } = formData;
       return [
-        ...debts,
+        ...curDebts,
         {
-          ...formData,
+          ...filteredForm,
           paid: false,
-          id: debts.length ? debts[debts.length - 1].id + 1 : 1,
+          id: curDebts.length ? curDebts[curDebts.length - 1].id + 1 : 1,
         },
       ];
     });
@@ -97,16 +98,16 @@ function App() {
           <Roomies roomies={roomies} onPayAllDebts={handlePayAllDebts} />
         </Route>
         <Route path="/debts">
+          <FormAddDebt roomies={roomies} onAddDebt={handleAddDebt} />
           <DebtsList
             roomies={roomies}
             debts={debts}
             onUpdateDebt={handleUpdateDebt}
             onDeleteDebt={handleDeleteDebt}
           />
-          <FormAddDebt roomies={roomies} onAddDebt={handleAddDebt} />
         </Route>
         <Route path="/album">
-          <Album/>
+          <Album />
         </Route>
       </Switch>
     </Router>

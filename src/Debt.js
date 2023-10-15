@@ -6,17 +6,10 @@ function Debt({ debt, selectedId, onSelect, onUpdateDebt, onDeleteDebt }) {
   return (
     <>
       <li>
-        {Object.keys(debt).map((key) => {
-          return (
-            <>
-              <strong>
-                {key} : {key !== "paid" && debt[key]}
-                {key === "paid" && (debt[key] ? <>PAID</> : <>NOT PAID</>)}
-              </strong>
-              <br />
-            </>
-          );
-        })}
+        <h2>debtor: {debtor}</h2>
+        <h3>creditor: {creditor}</h3>
+        <h3>description: {description}</h3>
+        <h1>{amount} $</h1>
         {selectedId !== id ? (
           <button onClick={() => onSelect(id)}> EDIT </button>
         ) : (

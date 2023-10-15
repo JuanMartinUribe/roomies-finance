@@ -32,3 +32,8 @@
   font-weight: bolder;
   font-size: x-large;
 }
+
+.debts-list{
+  list-style: none;
+}
+

@@ -1,6 +1,11 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Button from "@mui/material/Button";
 
 function FormAddDebt({ roomies, onAddDebt }) {
   const initialFormData = {
@@ -11,6 +16,7 @@ function FormAddDebt({ roomies, onAddDebt }) {
     creditor: "",
   };
   const [formData, setFormData] = useState(initialFormData);
+  const [showErrors, setShowErrors] = useState(false);
   const { debtor, creditor, amount, showForm, description } = formData;
 
   function handleFormChange(field, value) {
@@ -22,51 +28,14 @@ function FormAddDebt({ roomies, onAddDebt }) {
 
   function handleFormSubmit() {
     if (!debtor || !creditor || !amount || creditor === debtor) {
+      setShowErrors(true);
       return;
     }
 
     onAddDebt(formData);
     setFormData(initialFormData);
   }
-  return (
-    <>
-      {!showForm ? (
-        <button onClick={() => handleFormChange("showForm", !showForm)}>
-          Add new debt
-        </button>
-      ) : (
-        <>
-          <h1>Showing FORM</h1>
-          <form>
-
-              <SelectOptions options={roomies} setFormData={setFormData} />
-              <TextField
-                id="outlined-basic"
-                label="amount"
-                value={amount}
-                required={true}
-                onChange={(e) => {
-                  handleFormChange("amount", +e.target.value);
-                }}
-              ></TextField>
-              <TextField
-                id="outlined-basic"
-                value={description}
-                label="description"
-                onChange={(e) => {
-                  handleFormChange("description", e.target.value);
-                }}
-              ></TextField>
-          </form>
-
-          <button onClick={handleFormSubmit}>Submit Debt</button>
-        </>
-      )}
-    </>
-  );
-}
-function SelectOptions({ options, setFormData }) {
-  function handleSelectChange(e) {
+  function handleAgentChange(e) {
     const { name, value } = e.target;
     name === "creditor"
       ? setFormData((formData) => {
@@ -78,31 +47,99 @@ function SelectOptions({ options, setFormData }) {
   }
   return (
     <>
-      <label> select the creditor</label>
-      <select name="creditor" onChange={handleSelectChange}>
-        <option value="">Select an option</option>
-        {options.map((option, index) => {
-          return (
-            <option key={index} value={option.name}>
-              {option.name}
-            </option>
-          );
-        })}
-      </select>
-      <br />
-      <label> select the debtor</label>
-      <select name="debtor" onChange={handleSelectChange}>
-        <option value="">Select an option</option>
-        {options.map((option, index) => {
-          return (
-            <option key={index} value={option.name}>
-              {option.name}
-            </option>
-          );
-        })}
-      </select>
-      <br />
+      {!showForm ? (
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleFormChange("showForm", true);
+          }}
+        >
+          ADD DEBT
+        </Button>
+      ) : (
+        <>
+          <h1>Add new debt</h1>
+          <Box sx={{ minWidth: 120 }} component="form">
+            <SelectOption
+              options={roomies}
+              onAgentChange={handleAgentChange}
+              formData={formData}
+              agent="creditor"
+              showErrors={showErrors}
+            />
+            <SelectOption
+              options={roomies}
+              onAgentChange={handleAgentChange}
+              formData={formData}
+              agent="debtor"
+              showErrors={showErrors}
+            />
+            <TextField
+              error={showErrors && !amount}
+              id="outlined-basic"
+              label="amount"
+              value={amount}
+              required={true}
+              onChange={(e) => {
+                handleFormChange("amount", +e.target.value);
+              }}
+            ></TextField>
+            <TextField
+              id="outlined-basic"
+              value={description}
+              label="description"
+              onChange={(e) => {
+                handleFormChange("description", e.target.value);
+              }}
+            ></TextField>
+          </Box>
+          <Button variant="contained" onClick={handleFormSubmit}>
+            Submit new Debt
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              handleFormChange("showForm", false);
+            }}
+          >
+            Hide form
+          </Button>
+        </>
+      )}
     </>
+  );
+}
+function SelectOption({ options, onAgentChange, formData, agent, showErrors }) {
+  const { creditor, debtor } = formData;
+  const showError =
+    showErrors &&
+    ((agent === "creditor" && !creditor) ||
+      (agent === "debtor" && !debtor) ||
+      creditor === debtor);
+
+  return (
+    <div>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">{agent}</InputLabel>
+        <Select
+          error={showError}
+          labelId="demo-simple-select-label"
+          name={agent}
+          label={agent}
+          onChange={onAgentChange}
+          value={agent === "creditor" ? creditor : debtor}
+          required={true}
+        >
+          {options.map((option, index) => {
+            return (
+              <MenuItem key={index} value={option.name}>
+                {option.name}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+    </div>
   );
 }
 
