@@ -4,6 +4,7 @@ import Roomies from "./Roomies";
 import DebtsList from "./DebtsList";
 import FormAddDebt from "./FormAddDebt";
 import ReactDOM from "react-dom/client";
+import Album from "./album";
 
 const roomiesData = [
   {
@@ -103,6 +104,9 @@ function App() {
             onDeleteDebt={handleDeleteDebt}
           />
           <FormAddDebt roomies={roomies} onAddDebt={handleAddDebt} />
+        </Route>
+        <Route path="/album">
+          <Album/>
         </Route>
       </Switch>
     </Router>

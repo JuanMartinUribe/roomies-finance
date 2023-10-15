@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
 function FormAddDebt({ roomies, onAddDebt }) {
   const initialFormData = {
@@ -12,6 +14,7 @@ function FormAddDebt({ roomies, onAddDebt }) {
   const { debtor, creditor, amount, showForm, description } = formData;
 
   function handleFormChange(field, value) {
+    if (field === "amount" && isNaN(value)) return;
     setFormData((formData) => {
       return { ...formData, [field]: value };
     });
@@ -21,7 +24,7 @@ function FormAddDebt({ roomies, onAddDebt }) {
     if (!debtor || !creditor || !amount || creditor === debtor) {
       return;
     }
-    
+
     onAddDebt(formData);
     setFormData(initialFormData);
   }
@@ -35,24 +38,25 @@ function FormAddDebt({ roomies, onAddDebt }) {
         <>
           <h1>Showing FORM</h1>
           <form>
-            <SelectOption options={roomies} setFormData={setFormData} />
-            <label> Enter the amount</label>
-            <input
-              type="text"
-              value={amount}
-              onChange={(e) => {
-                handleFormChange("amount", +e.target.value);
-              }}
-            ></input>
-            <br />
-            <label> Enter the description</label>
-            <textarea
-              type="text"
-              value={description}
-              onChange={(e) => {
-                handleFormChange("description", e.target.value);
-              }}
-            ></textarea>
+
+              <SelectOptions options={roomies} setFormData={setFormData} />
+              <TextField
+                id="outlined-basic"
+                label="amount"
+                value={amount}
+                required={true}
+                onChange={(e) => {
+                  handleFormChange("amount", +e.target.value);
+                }}
+              ></TextField>
+              <TextField
+                id="outlined-basic"
+                value={description}
+                label="description"
+                onChange={(e) => {
+                  handleFormChange("description", e.target.value);
+                }}
+              ></TextField>
           </form>
 
           <button onClick={handleFormSubmit}>Submit Debt</button>
@@ -61,7 +65,7 @@ function FormAddDebt({ roomies, onAddDebt }) {
     </>
   );
 }
-function SelectOption({ options, setFormData }) {
+function SelectOptions({ options, setFormData }) {
   function handleSelectChange(e) {
     const { name, value } = e.target;
     name === "creditor"
