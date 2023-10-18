@@ -59,7 +59,16 @@ function FormAddDebt({ roomies, onAddDebt }) {
       ) : (
         <>
           <h1>Add new debt</h1>
-          <Box sx={{ minWidth: 120 }} component="form">
+          <Box
+            sx={{
+              minWidth: 120,
+              display: "flex",
+              flexDirection: "column",
+              height: "350px",
+              justifyContent: "space-around",
+            }}
+            component="form"
+          >
             <SelectOption
               options={roomies}
               onAgentChange={handleAgentChange}
@@ -97,6 +106,7 @@ function FormAddDebt({ roomies, onAddDebt }) {
             Submit new Debt
           </Button>
           <Button
+            sx={{ margin: "20px" }}
             variant="outlined"
             onClick={() => {
               handleFormChange("showForm", false);

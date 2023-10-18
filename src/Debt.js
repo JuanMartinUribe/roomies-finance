@@ -1,17 +1,30 @@
 import { useState } from "react";
-
+import { Button } from "@mui/material";
 function Debt({ debt, selectedId, onSelect, onUpdateDebt, onDeleteDebt }) {
-  const { creditor, debtor, amount, description, status, id } = debt;
+  const { creditor, debtor, amount, description, id } = debt;
 
   return (
     <>
       <li>
         <h2>debtor: {debtor}</h2>
         <h3>creditor: {creditor}</h3>
-        <h3>description: {description}</h3>
-        <h1>{amount} $</h1>
         {selectedId !== id ? (
-          <button onClick={() => onSelect(id)}> EDIT </button>
+          <>
+            <h3>{description}</h3>
+            <h1>{amount} $</h1>
+            <Button variant="contained" onClick={() => onSelect(id)}>
+              {" "}
+              EDIT{" "}
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => {
+                onDeleteDebt(id);
+              }}
+            >
+              DELETE
+            </Button>
+          </>
         ) : (
           <>
             <FormEditDebt
@@ -23,13 +36,6 @@ function Debt({ debt, selectedId, onSelect, onUpdateDebt, onDeleteDebt }) {
             />
           </>
         )}
-        <button
-          onClick={() => {
-            onDeleteDebt(id);
-          }}
-        >
-          DELETE
-        </button>
       </li>
     </>
   );
@@ -75,13 +81,14 @@ function FormEditDebt({ debt, onEdit }) {
           <option value="no">No</option>
         </select>
       </form>
-      <button
+      <Button
+        variant="contained"
         onClick={() => {
           onEdit(editFormData);
         }}
       >
         CONFIRM CHANGES
-      </button>
+      </Button>
     </>
   );
 }

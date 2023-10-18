@@ -5,10 +5,12 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import Navbar from "./Navbar";
 
 function Roomies({ roomies, onPayAllDebts }) {
   return (
     <div className="roomies">
+      <Navbar className="roomies-navbar"/>
       <ul className="roomies-list">
         {roomies.map((roomie, i) => {
           return (
@@ -24,10 +26,9 @@ function Roomies({ roomies, onPayAllDebts }) {
                 <CardMedia
                   component="div"
                   sx={{
-                    // 16:9
                     pt: "56.25%",
                   }}
-                  image="https://source.unsplash.com/random?wallpapers"
+                  image={roomie.image}
                 />
                 <CardContent sx={{ flexGrow: 1, minWidth: 400 }}>
                   <h1>{roomie.name}</h1>

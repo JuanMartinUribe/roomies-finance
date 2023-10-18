@@ -7,6 +7,14 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
 function DebtsList({ debts, onUpdateDebt, onDeleteDebt }) {
+  const notPaidBg = {
+    background:
+      "linear-gradient(to right, #f5bcba, #f0322b)",
+  };
+  const paidBg = {
+    background:"linear-gradient(to right,#d6f5cb,#4cf03a)"
+  }
+
   const [selectedId, setSelectedId] = useState("");
   function handleSelect(id) {
     setSelectedId((curId) => {
@@ -24,9 +32,10 @@ function DebtsList({ debts, onUpdateDebt, onDeleteDebt }) {
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  marginBottom: "80px",
+                  margin: "20px",
                   maxHeight: "300px",
-                  backgroundColor:debt.paid ? "#dcf2de" : "#fc6a6a",
+                  backgroundColor: debt.paid ? paidBg : notPaidBg,
+                  padding: "40px",
                 }}
               >
                 <CardContent sx={{ flexGrow: 1, minWidth: 400 }}>

@@ -5,19 +5,23 @@ import DebtsList from "./DebtsList";
 import FormAddDebt from "./FormAddDebt";
 import ReactDOM from "react-dom/client";
 import Album from "./album";
-
+import image1 from "./download.jpeg";
+import image2 from "./download (1).jpeg";
+import Navbar from "./Navbar";
+import './app.css'
+import { ClassNames } from "@emotion/react";
 const roomiesData = [
   {
     name: "Josue",
     debt: 0,
     owed: 0,
-    image: "https://i.pravatar.cc/48?u=933372",
+    image: image1,
   },
   {
     name: "Daniela",
     debt: 0,
     owed: 0,
-    image: "https://i.pravatar.cc/48?u=118836",
+    image: image2,
   },
 ];
 function App() {
@@ -92,25 +96,28 @@ function App() {
     });
   }
   return (
-    <Router>
-      <Switch>
-        <Route path="/roomies">
-          <Roomies roomies={roomies} onPayAllDebts={handlePayAllDebts} />
-        </Route>
-        <Route path="/debts">
-          <FormAddDebt roomies={roomies} onAddDebt={handleAddDebt} />
-          <DebtsList
-            roomies={roomies}
-            debts={debts}
-            onUpdateDebt={handleUpdateDebt}
-            onDeleteDebt={handleDeleteDebt}
-          />
-        </Route>
-        <Route path="/album">
-          <Album />
-        </Route>
-      </Switch>
-    </Router>
+    <>
+      <Router>
+        <Switch>
+          <Route path="/roomies">
+            <Roomies roomies={roomies} onPayAllDebts={handlePayAllDebts} />
+          </Route>
+          <Route path="/debts">
+            <FormAddDebt roomies={roomies} onAddDebt={handleAddDebt} />
+            <DebtsList
+              roomies={roomies}
+              debts={debts}
+              onUpdateDebt={handleUpdateDebt}
+              onDeleteDebt={handleDeleteDebt}
+            />
+          </Route>
+          <Route path="/album">
+            <Album />
+          </Route>
+        </Switch>
+      </Router>
+      <Navbar/>
+    </>
   );
 }
 
